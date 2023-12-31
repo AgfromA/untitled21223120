@@ -9,6 +9,10 @@ public class Util {
     private static final String USERNAME = "root"; // Здесь укажи имя пользователя базы данных
     private static final String PASSWORD = "root"; // Здесь укажи пароль пользователя базы данных
 
+    private Util() {
+        // Приватный конструктор, чтобы предотвратить инстанцирование класса
+    }
+
     public static Connection getConnection() {
         Connection connection = null;
 
@@ -20,5 +24,18 @@ public class Util {
         }
 
         return connection;
+    }
+
+    public static void closeConnection(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+                System.out.println("Connection close successful");
+            } catch (SQLException e) {
+                System.out.println("Ошибка при закрытии соединения с базой данных");
+                e.printStackTrace();
+            }
+
+        }
     }
 }
