@@ -5,37 +5,31 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Util {
-    private static final String URL = "jdbc:mysql://localhost:3306/misha"; // Здесь укажи URL базы данных
-    private static final String USERNAME = "root"; // Здесь укажи имя пользователя базы данных
-    private static final String PASSWORD = "root"; // Здесь укажи пароль пользователя базы данных
-
-    private Util() {
-        // Приватный конструктор, чтобы предотвратить инстанцирование класса
-    }
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/misha";
+    private static final String DB_USER = "root";
+    private static final String DB_PASSWORD = "root";
+    private static Connection connection;
 
     public static Connection getConnection() {
-        Connection connection = null;
-
-        try {
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        } catch (SQLException e) {
-            System.out.println("Ошибка при создании соединения с базой данных");
-            e.printStackTrace();
+        if (connection == null) {
+            try {
+                connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-
         return connection;
     }
 
-    public static void closeConnection(Connection connection) {
+    public static void closeConnection() {
         if (connection != null) {
             try {
                 connection.close();
-                System.out.println("Connection close successful");
+                connection = null;
+                System.out.println("Conn Close");
             } catch (SQLException e) {
-                System.out.println("Ошибка при закрытии соединения с базой данных");
                 e.printStackTrace();
             }
-
         }
     }
 }
