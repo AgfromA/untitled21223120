@@ -22,13 +22,7 @@ public class UserDaoJDBCImpl implements UserDao {
     @Override
     public void createUsersTable() {
         try (Statement statement = connection.createStatement()) {
-            // Execute the SQL query to create the users table
-            String sql = "CREATE TABLE IF NOT EXISTS users (" +
-                    "id BIGINT PRIMARY KEY AUTO_INCREMENT, " +
-                    "name VARCHAR(255), " +
-                    "last_Name VARCHAR(255), " +
-                    "age TINYINT" +
-                    ")";
+            String sql = "CREATE TABLE IF NOT EXISTS users (" + "id BIGINT PRIMARY KEY AUTO_INCREMENT, " + "name VARCHAR(255), " + "last_Name VARCHAR(255), " + "age TINYINT" + ")";
             statement.executeUpdate(sql);
             System.out.println("Users table created successfully.");
         } catch (SQLException e) {
@@ -51,7 +45,6 @@ public class UserDaoJDBCImpl implements UserDao {
     @Override
     public void saveUser(String name, String last_Name, byte age) {
         String sql = "INSERT INTO users (name, last_Name, age) VALUES (?, ?, ?)";
-
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             connection.setAutoCommit(false);
             statement.setString(1, name);
@@ -102,9 +95,8 @@ public class UserDaoJDBCImpl implements UserDao {
         List<User> users = new ArrayList<>();
         String sql = "SELECT * FROM users";
 
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-             connection.setAutoCommit(false);
+        try (Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(sql)) {
+            connection.setAutoCommit(false);
             while (resultSet.next()) {
                 long id = resultSet.getLong("id");
                 String name = resultSet.getString("name");
@@ -129,8 +121,8 @@ public class UserDaoJDBCImpl implements UserDao {
             statement.execute(sql);
         } catch (SQLException e) {
             e.printStackTrace();
-            }
         }
     }
+}
 
 
