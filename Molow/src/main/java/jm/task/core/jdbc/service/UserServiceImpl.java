@@ -6,7 +6,7 @@ import jm.task.core.jdbc.model.User;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    UserDaoHibernateImpl userDaoHibernate = new UserDaoHibernateImpl();
+    private UserDaoHibernateImpl userDaoHibernate = new UserDaoHibernateImpl();
 
     @Override
     public void createUsersTable() {
@@ -19,8 +19,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(String name, String last_Name, byte age) {
-        userDaoHibernate.saveUser(name, last_Name, age);
+    public void saveUser(String name, String lastname, byte age) {
+        userDaoHibernate.saveUser(name, lastname, age);
     }
 
     @Override

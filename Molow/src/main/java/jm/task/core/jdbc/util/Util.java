@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 import jm.task.core.jdbc.model.User;
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -30,6 +31,18 @@ public class Util {
             }
         }
         return connection;
+    }
+
+    public static void closeConnection() {
+        if (connection != null) {
+            try {
+                connection.close();
+                connection = null;
+                System.out.println("Conn Close");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static SessionFactory sessionFactory;
@@ -65,16 +78,16 @@ public class Util {
         return sessionFactory;
     }
 
-
-    public static void closeConnection() {
-        if (connection != null) {
+    public static void closeSessionFactory() {
+        if (sessionFactory != null) {
             try {
-                connection.close();
-                connection = null;
-                System.out.println("Conn Close");
-            } catch (SQLException e) {
+                sessionFactory.close();
+                System.out.println("SessionFactory close");
+            } catch (HibernateException e) {
                 e.printStackTrace();
             }
         }
     }
+
+
 }
