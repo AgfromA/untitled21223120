@@ -36,19 +36,24 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void dropUsersTable() {
         try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
+            Transaction tx = session.beginTransaction();
 
             String dropTableQuery = "DROP TABLE IF EXISTS users";
 
             session.createSQLQuery(dropTableQuery).executeUpdate();
-            transaction.commit();
+            try{
+            tx.commit();
+        } catch (Exception e) {
+                tx.rollback();
+                e.printStackTrace();
+            }
         }
     }
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
         try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
+            Transaction tx = session.beginTransaction();
 
             User user = new User();
             user.setName(name);
@@ -56,7 +61,12 @@ public class UserDaoHibernateImpl implements UserDao {
             user.setAge(age);
 
             session.save(user);
-            transaction.commit();
+            try{
+            tx.commit();
+        } catch (Exception e) {
+                tx.rollback();
+                e.printStackTrace();
+            }
         }
     }
 
@@ -68,11 +78,16 @@ public class UserDaoHibernateImpl implements UserDao {
             User user = session.get(User.class, id);
             if (user != null) {
                 session.delete(user);
-            }
+            }try{
             tx.commit();
+            } catch (Exception e) {
+                tx.rollback();
+                e.printStackTrace();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
@@ -91,7 +106,12 @@ public class UserDaoHibernateImpl implements UserDao {
         try (Session session = sessionFactory.openSession()) {
             Transaction tx = session.beginTransaction();
             session.createQuery("DELETE FROM User").executeUpdate();
+            try{
             tx.commit();
+            } catch (Exception e) {
+                tx.rollback();
+                e.printStackTrace();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

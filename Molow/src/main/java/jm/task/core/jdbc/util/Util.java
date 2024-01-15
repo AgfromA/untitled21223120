@@ -45,7 +45,7 @@ public class Util {
         }
     }
 
-    public static SessionFactory sessionFactory;
+    private static SessionFactory sessionFactory;
 
     public static SessionFactory getSessionFactory() {
 
