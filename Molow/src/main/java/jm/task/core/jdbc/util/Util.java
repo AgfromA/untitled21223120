@@ -16,11 +16,12 @@ import org.hibernate.service.ServiceRegistry;
 
 public class Util {
 
-
     private static final String DB_URL = "jdbc:mysql://localhost:3306/misha";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "root";
     private static Connection connection;
+
+    private static SessionFactory sessionFactory;
 
     public static Connection getConnection() {
         if (connection == null) {
@@ -45,7 +46,6 @@ public class Util {
         }
     }
 
-    private static SessionFactory sessionFactory;
 
     public static SessionFactory getSessionFactory() {
 
